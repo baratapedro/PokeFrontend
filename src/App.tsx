@@ -15,6 +15,7 @@ import { LoadMore } from "./components/LoadMore";
 import { useOutsideClick } from "./hooks/useOutsideClick";
 
 import { IPokemon } from "./interfaces/IPokemon";
+import { LoadSpinner } from "./components/LoadingSpinner";
 
 interface IPokeApiResults {
   name: string,
@@ -33,6 +34,8 @@ export function App() {
   const [pokemons, setPokemons] = useState<IPokemon[]>([])
   const [nextUrl, setNextUrl] = useState<string>("https://pokeapi.co/api/v2/pokemon?limit=20&offset=0")
   const [pokemonFind, setPokemonFind] = useState<IPokemon | null>(null);
+  const [isLoading, setIsLoading] = useState(true)
+  const [isLoadingMorePokemons, setIsLoadingMorePokemon] = useState(false)
 
   const ref = useOutsideClick(handlerChangePanelState)
 
@@ -51,12 +54,16 @@ export function App() {
     setModalOpen(isOpen)
   }
 
-  function handleSearchPokemonById(pokemon: IPokemon) {
+  function handleSetPokemonFind(pokemon: IPokemon) {
     setPokemonFind(pokemon);
   }
 
-  function handleGetMorePokemons() {
-    getCards(nextUrl);
+  async function handleGetMorePokemons() {
+    setIsLoadingMorePokemon(true);
+
+    await getCards(nextUrl);
+
+    setIsLoadingMorePokemon(false);
   }
 
   async function getCards(url: string) {
@@ -81,6 +88,8 @@ export function App() {
       setPokemons([...pokemons, ...newPokemons]);
     }
 
+    setIsLoading(false);
+
   }
 
   async function handlerSearchPokemon(pokemon: string) {
@@ -91,6 +100,8 @@ export function App() {
   }
 
   async function searchPokemon(pokemon: string) {
+    setIsLoading(true);
+
     if (pokemon == "") {
       getCards("https://pokeapi.co/api/v2/pokemon?limit=20&offset=0");
       return;
@@ -98,10 +109,15 @@ export function App() {
 
     try {
       const response = await axios.get(`https://pokeapi.co/api/v2/pokemon/${pokemon}`)
+
       return response.data
+
     } catch (error) {
       console.log("error: ", error)
       setPokemons([])
+
+    } finally {
+      setIsLoading(false);
     }
   }
 
@@ -118,11 +134,13 @@ export function App() {
           handlerChangePanelState={handlerChangePanelState}
           handlerChangeModalState={handlerChangeModalState}
           pokemons={pokemons}
-          handleSearchPokemonById={handleSearchPokemonById}
+          handleSetPokemonFind={handleSetPokemonFind}
+          isLoading={isLoading}
         />
         {
-          (!isSearchActive() && nextUrl != null) &&
-          <LoadMore handleGetMorePokemons={handleGetMorePokemons} />
+          isLoadingMorePokemons ? <LoadSpinner /> :
+            (!isSearchActive() && nextUrl != null && !isLoading) &&
+            <LoadMore handleGetMorePokemons={handleGetMorePokemons} />
         }
       </main>
       {

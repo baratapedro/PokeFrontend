@@ -6,6 +6,11 @@ export const ContentContainer = styled.div`
     margin: 0 auto;
 
     padding: 20px;
+
+    min-height: calc(100vh - 400px);
+
+    display: flex;
+    flex-direction: column;
 `
 
 export const ContentHeader = styled.div`

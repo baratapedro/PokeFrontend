@@ -18,7 +18,6 @@ Antes de começar, certifique-se de que você tenha as seguintes ferramentas ins
    git clone https://github.com/baratapedro/PokeFrontend.git
    
 
-
 2. Navegue até a pasta do projeto:
 
    cd frontend 

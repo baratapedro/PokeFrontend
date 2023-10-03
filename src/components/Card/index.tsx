@@ -18,24 +18,24 @@ interface ICardProps {
     handlerChangeModalState: (isOpen: boolean) => void,
     pokemon: IPokemon,
     handlerChangePanelState: (isOpen: boolean, mode: string) => void,
-    handleSearchPokemonById: (pokemon: IPokemon) => void
+    handleSetPokemonFind: (pokemon: IPokemon) => void
 }
 
 export function Card({
     handlerChangeModalState,
     handlerChangePanelState,
     pokemon,
-    handleSearchPokemonById
+    handleSetPokemonFind
 }: ICardProps) {
 
     function handleEditSelectedPokemon() {
         handlerChangePanelState(true, 'edit')
-        handleSearchPokemonById(pokemon)
+        handleSetPokemonFind(pokemon)
     }
 
     function handleDeleteSelectedPokemon() {
         handlerChangeModalState(true);
-        handleSearchPokemonById(pokemon)
+        handleSetPokemonFind(pokemon)
     }
 
     return (

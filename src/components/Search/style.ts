@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import bgImage2x from "../../assets/fundo-busca@2x.png";
+import bgImage2x from "../../assets/fundo-busca2x.png";
 import bgImage from "../../assets/fundo-busca.png";
 
 export const SearchContainer = styled.div`
