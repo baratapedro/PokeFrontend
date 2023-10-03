@@ -15,7 +15,8 @@ Antes de começar, certifique-se de que você tenha as seguintes ferramentas ins
 1. Clone este repositório em sua máquina local:
 
    ```bash
-   git clone https://github.com/seu-usuario/frontend.git
+   git clone https://github.com/baratapedro/PokeFrontend.git
+   
 
 
 2. Navegue até a pasta do projeto:
